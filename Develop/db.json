@@ -1,1 +1,14 @@
-{"allNotes":[{"title":"new text4","text":"new text1"}]}
+{
+    "allNotes": [
+        {
+            "title": "new text1",
+            "text": "new text1",
+            "id": 50
+        },
+        {
+            "title": "new text2",
+            "text": "new text1",
+            "id": 91
+        }
+    ]
+}
