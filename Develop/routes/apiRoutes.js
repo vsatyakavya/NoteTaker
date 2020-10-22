@@ -41,7 +41,7 @@ module.exports = function(app) {
 
     //  var newData = JSON.stringify(req.body);
     //   db.json.push(newData);
-     res.json(true);
+     res.json(req.body);
     
     
  
@@ -49,6 +49,35 @@ module.exports = function(app) {
 
     app.delete("/api/notes/:id",function(req,res){
         var id = req.params.id;
+        fs.readFile("db.json","utf8",function readFile(err,data){
+            if(err){
+                console.log(err);
+            }
+            else{
+                var data = JSON.parse(data);
+               var  result = data.allNotes;
+                for(var i=0;i<result.length ; i++) {
+                    if(id == result[i].id) {
+                        console.log('checking')
+                        result.splice(i,1);
+                        console.log(result);
+                        notes.allNotes = result;
+                        var newNotes = JSON.stringify(notes)
+                        fs.writeFile("db.json",newNotes,function(err){
+                            if(err){
+                                throw err;
+                            }
+                        })
+                    }
+                }
+                
+            
+            }
+           
+        
+        })
+        res.json(true);
+
 
     })
 };
