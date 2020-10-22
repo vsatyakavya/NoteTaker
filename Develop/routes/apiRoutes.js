@@ -27,10 +27,18 @@ module.exports = function (app) {
 
 
     app.post("/api/notes", function (req, res) {
-        var id = Math.floor(Math.random() * 100) + 1;
-        req.body.id = id;
+        if(notes.allNotes.length== 0){
+        var id = 1;
+        // var id = Math.floor(Math.random() * 100) + 1;
+        req.body.id = id;}
+        else{
+           var newId= notes.allNotes[notes.allNotes.length-1].id;
+           newId++;
+           req.body.id =newId;
+
+        }
       notes.allNotes.push(req.body);
-        var newJson = JSON.stringify(notes)
+        var newJson = JSON.stringify(notes, null , 2)
 
         fs.writeFile('./db/db.json', newJson, 'utf8', (err) => {
             if (err) {
@@ -56,7 +64,7 @@ module.exports = function (app) {
                     if (id == result[i].id) {
                         result.splice(i, 1);
                         notes.allNotes = result;
-                        var newNotes = JSON.stringify(notes)
+                        var newNotes = JSON.stringify(notes, null , 2)
                         fs.writeFile("./db/db.json", newNotes, function (err) {
                             if (err) {
                                 throw err;
