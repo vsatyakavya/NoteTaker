@@ -15,6 +15,7 @@ const getNotes = () => {
   });
 };
 
+
 // A function for saving a note to the db
 const saveNote = (note) => {
   return $.ajax({
@@ -128,7 +129,8 @@ const renderNoteList = (notes) => {
     noteListItems.push(create$li("No saved Notes", false));
   }
 
-  notes.forEach((note) => {
+  notes.allNotes.forEach((note) => {
+
     const $li = create$li(note.title).data(note);
     noteListItems.push($li);
   });
@@ -138,6 +140,7 @@ const renderNoteList = (notes) => {
 
 // Gets notes from the db and renders them to the sidebar
 const getAndRenderNotes = () => {
+  console.log('hrhehre', getNotes().then(renderNoteList))
   return getNotes().then(renderNoteList);
 };
 

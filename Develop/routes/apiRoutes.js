@@ -1,79 +1,74 @@
 var path = require("path");
 var fs = require("fs");
-// var toJson = { allNotes:[]}
 
-module.exports = function(app) {
+module.exports = function (app) {
     var notes = {
         allNotes: []
-     };
-     
-   
-    app.get("/api/notes", function(req, res) {
-      fs.readFile("db.json","utf8",function readFile(err,data){
-          if(err){
-              console.log(err);
-          }
-          else {
-              return res.json(JSON.parse(data));
-          }
-      })
+    };
+
+
+    app.get("/api/notes", function (req, res) {
+        fs.readFile("./db/db.json", "utf8", function readFile(err, data) {
+            var notes;
+            if (err) {
+                console.log(err);
+            }
+            else {
+                notes = JSON.parse(data);
+
+            }
+        })
+        res.json(notes);
     });
-  
-  
-  
-    // If no matching route is found default to home
-    
 
 
-  app.post("/api/notes", function(req, res) {
-    var id = Math.floor(Math.random() * 100) + 1;
-    req.body.id = id;
-      
-    //   toJson.push(JSON.stringify(req.body))
-    
-    notes.allNotes.push(req.body);
-    // allNotes.id = id;
-    var newJson = JSON.stringify(notes)
-    
- fs.writeFile('db.json', newJson, 'utf8', (err)=>{
-            if(err){
+
+
+
+
+    app.post("/api/notes", function (req, res) {
+        var id = Math.floor(Math.random() * 100) + 1;
+        req.body.id = id;
+      notes.allNotes.push(req.body);
+        var newJson = JSON.stringify(notes)
+
+        fs.writeFile('./db/db.json', newJson, 'utf8', (err) => {
+            if (err) {
                 console.log(err)
             }
         })
-     res.json(req.body);
-    
-    
-    
+        res.json(req.body);
+
+
+
     });
 
-    app.delete("/api/notes/:id",function(req,res){
+    app.delete("/api/notes/:id", function (req, res) {
         var id = req.params.id;
-        fs.readFile("db.json","utf8",function readFile(err,data){
-            if(err){
+        fs.readFile("./db/db.json", "utf8", function readFile(err, data) {
+            if (err) {
                 console.log(err);
             }
-            else{
+            else {
                 var data = JSON.parse(data);
-               var  result = data.allNotes;
-                for(var i=0;i<result.length ; i++) {
-                    if(id == result[i].id) {
-                        console.log('checking')
-                        result.splice(i,1);
-                        console.log(result);
+                var result = data.allNotes;
+                for (var i = 0; i < result.length; i++) {
+                    if (id == result[i].id) {
+                        result.splice(i, 1);
                         notes.allNotes = result;
                         var newNotes = JSON.stringify(notes)
-                        fs.writeFile("db.json",newNotes,function(err){
-                            if(err){
+                        fs.writeFile("./db/db.json", newNotes, function (err) {
+                            if (err) {
                                 throw err;
                             }
                         })
                     }
                 }
-                
-            
+
+
             }
-           
-        
+
+
         })
         res.json(true);
 
