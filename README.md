@@ -1,7 +1,8 @@
 # NoteTaker
 
 # Technologies used:
-*  JavaScript, Node.js, Express.js, HTML , css, Bootstrap
+*  Front-end : HTML, CSS, BOOTSTRAP, font-awesome
+*  Back-end :Javascript, Jquery, Express.js, Node.js, 
 
 # Features:
 
