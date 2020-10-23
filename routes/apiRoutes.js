@@ -23,10 +23,7 @@ module.exports = function (app) {
 
 
 
-
-
-
-    app.post("/api/notes", function (req, res) {
+app.post("/api/notes", function (req, res) {
         if(notes.allNotes.length== 0){
         var id = 1;
         // var id = Math.floor(Math.random() * 100) + 1;
@@ -40,7 +37,7 @@ module.exports = function (app) {
       notes.allNotes.push(req.body);
         var newJson = JSON.stringify(notes, null , 2)
 
-        fs.writeFile('./db/db.json', newJson, 'utf8', (err) => {
+        fs.writeFile(path.join(__dirname, "../db/db.json"), newJson, 'utf8', (err) => {
             if (err) {
                 console.log(err)
             }
@@ -65,7 +62,7 @@ module.exports = function (app) {
                         result.splice(i, 1);
                         notes.allNotes = result;
                         var newNotes = JSON.stringify(notes, null , 2)
-                        fs.writeFile("./db/db.json", newNotes, function (err) {
+                        fs.writeFile(path.join(__dirname, "../db/db.json"), newNotes, function (err) {
                             if (err) {
                                 throw err;
                             }
